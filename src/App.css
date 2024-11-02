@@ -1,0 +1,14 @@
+.layout-nav-element {
+  background-color: black;
+  color: #ded6d6;
+}
+
+.layout-nav-element a {
+  color: #ded6d6;
+}
+
+.layout-nav-element a:hover {
+  color: gray;
+}
+
+
