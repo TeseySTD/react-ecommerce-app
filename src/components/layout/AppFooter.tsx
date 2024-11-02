@@ -19,7 +19,7 @@ const AppFooter = () => {
             </a>
           </li>
           <li className="nav-item mb-1">
-            <a href="#" className="nav-link p-0 ">
+            <a href="https://github.com/C0ldarm" className="nav-link p-0 ">
               Nykolaychuk Vladyslav (343-Б)
             </a>
           </li>

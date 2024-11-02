@@ -31,12 +31,12 @@ const AppHeader = () => {
           </ul>
           <ul className="navbar-nav">
             <li className="nav-item">
-              <a className="nav-link" href="cart">
+              <a className="nav-link" href="/cart">
                 Cart
               </a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="favorites">
+              <a className="nav-link" href="/favorites">
                 Favorites
               </a>
             </li>
