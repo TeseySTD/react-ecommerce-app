@@ -41,7 +41,9 @@ export default class FakeStoreProvider {
         return products.slice(offset, offset + limit);
     }
 
-    public static async getProductById(id: number): Promise<Product | undefined> {
+    public static async getProductById(
+        id: number
+    ): Promise<Product | undefined> {
         const products = await FakeStoreProvider.getProducts();
         return products.find((product) => product.id == id);
     }
