@@ -5,6 +5,8 @@ import Product from '../types/product';
 import ProductCard from '../components/products/ProductCard';
 import { Row, Col, Form, Button } from 'react-bootstrap';
 
+const _inputDelay = 150;
+
 // Loader to fetch products
 const ProductsLoader = async () => {
   const products = await FakeStoreProvider.getProducts();
@@ -22,6 +24,7 @@ const Products = () => {
   const initialFilterPrice = searchParams.get('price') || '';
 
   // Initialize state, only set from URL once on load
+
   const [filterTitle, setFilterTitle] = useState(initialFilterTitle);
   const [filterPrice, setFilterPrice] = useState(initialFilterPrice);
 
@@ -48,28 +51,28 @@ const Products = () => {
   // Handle input change for title
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
-    setFilterTitle(newValue);
 
     // Clear the existing timer and set a new one
     if (timer) clearTimeout(timer);
     setTimer(
       setTimeout(() => {
         handleFilterUpdate(newValue, filterPrice); // Use the latest title and current price
-      }, 750)
+        setFilterTitle(newValue);
+      }, _inputDelay)
     ); // delay
   };
 
   // Handle input change for price
   const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
-    setFilterPrice(newValue);
 
     // Clear the existing timer and set a new one
     if (timer) clearTimeout(timer);
     setTimer(
       setTimeout(() => {
         handleFilterUpdate(filterTitle, newValue); // Use the latest price and current title
-      }, 750)
+        setFilterPrice(newValue);
+      }, _inputDelay)
     ); //  delay
   };
 
@@ -97,7 +100,6 @@ const Products = () => {
               <Form.Control
                 type="text"
                 placeholder="Enter product title"
-                value={filterTitle}
                 onChange={handleTitleChange} // Directly use the handler
               />
             </Form.Group>
@@ -108,7 +110,6 @@ const Products = () => {
               <Form.Control
                 type="number"
                 placeholder="Enter max price"
-                value={filterPrice}
                 onChange={handlePriceChange} // Directly use the handler
               />
             </Form.Group>
