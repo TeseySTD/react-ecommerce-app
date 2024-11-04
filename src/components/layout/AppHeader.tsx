@@ -1,9 +1,9 @@
 const AppHeader = () => {
   return (
-    <nav className="layout-nav-element navbar navbar-expand-lg">
+    <nav className="layout-nav-element navbar navbar-expand-lg sticky-top">
       <div className="container-fluid">
-        <a className="navbar-brand" href="/">
-          E-commerce app
+        <a className="navbar-brand mx-3 ms-4 fw-bold" href="/">
+          E-Commerce App
         </a>
         <button
           className="navbar-toggler"
@@ -18,25 +18,25 @@ const AppHeader = () => {
         </button>
         <div className="collapse navbar-collapse" id="navbarText">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            <li className="nav-item">
-              <a className="nav-link" href="/">
+            <li className="nav-item mx-3">
+              <a className="nav-link fw-bold" href="/">
                 Home
               </a>
             </li>
-            <li className="nav-item">
-              <a className="nav-link" href="/products">
+            <li className="nav-item mx-3">
+              <a className="nav-link fw-bold" href="/products">
                 Products
               </a>
             </li>
           </ul>
           <ul className="navbar-nav">
-            <li className="nav-item">
-              <a className="nav-link" href="/cart">
+            <li className="nav-item mx-3">
+              <a className="nav-link fw-bold" href="/cart">
                 Cart
               </a>
             </li>
-            <li className="nav-item">
-              <a className="nav-link" href="/favorites">
+            <li className="nav-item mx-3 me-4">
+              <a className="nav-link fw-bold" href="/favorites">
                 Favorites
               </a>
             </li>

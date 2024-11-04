@@ -4,7 +4,7 @@ import AppHeader from './AppHeader';
 
 const Layout = () => {
   return (
-    <div className='App'>
+    <div className="App">
       <AppHeader />
       <Outlet />
       <AppFooter />
