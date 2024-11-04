@@ -16,8 +16,9 @@ const ProductsLoader = async () => {
 };
 
 const Products = () => {
-  const products = useLoaderData() as Product[];
-  const categories = useLoaderData() as Category[];
+  const loaderData = useLoaderData() as { products: Product[]; categories: Category[] };
+  const products = loaderData.products as Product[];
+  const categories = loaderData.categories as Category[];
 
   // Use search params for managing URL query parameters
   const [searchParams, setSearchParams] = useSearchParams();
