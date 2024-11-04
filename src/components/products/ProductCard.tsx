@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import Product from '../../types/product';
+import { Col } from 'react-bootstrap';
 
 interface ProductCardProps {
   product: Product;
@@ -10,7 +11,7 @@ const ProductCard = (props: ProductCardProps) => {
     e.currentTarget.src = 'https://placehold.co/50';
   };
   return (
-    <div className="card p-3 m-2" style={{ width: '17rem' }}>
+    <div className="card p-3 m-2" style={{ width: '20rem' }}>
       <img
         src={props.product.images[0]}
         className="card-img-top"
@@ -36,10 +37,5 @@ const ProductCard = (props: ProductCardProps) => {
     </div>
   );
 };
-
-// function truncateText(text: string) {
-//   var truncated = text.substring(0, 75) + '...';
-//   return truncated;
-// }
 
 export default ProductCard;

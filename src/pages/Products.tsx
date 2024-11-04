@@ -2,8 +2,8 @@ import { useLoaderData, useSearchParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import FakeStoreProvider from '../api/fake-store-api';
 import Product from '../types/product';
-import ProductCard from '../components/products/ProductCard';
-import { Row, Form, Button } from 'react-bootstrap';
+import Pagination from '../components/products/Pagination';
+import { Form, Button } from 'react-bootstrap';
 import Category from '../types/category';
 
 const _inputDelay = 150; // ms
@@ -16,20 +16,22 @@ const ProductsLoader = async () => {
 };
 
 const Products = () => {
-  const loaderData = useLoaderData() as { products: Product[]; categories: Category[] };
+  const loaderData = useLoaderData() as {
+    products: Product[];
+    categories: Category[];
+  };
   const products = loaderData.products as Product[];
   const categories = loaderData.categories as Category[];
 
   // Use search params for managing URL query parameters
   const [searchParams, setSearchParams] = useSearchParams();
-  const [pageSize, setPageSize] = useState(18);
+  const [pageSize] = useState(10);
 
   // Initialize filter states from URL parameters
   const initialFilterTitle = searchParams.get('title') || '';
   const initialFilterPrice = searchParams.get('price') || '';
 
   // Initialize state, only set from URL once on load
-
   const [filterTitle, setFilterTitle] = useState(initialFilterTitle);
   const [filterPrice, setFilterPrice] = useState(initialFilterPrice);
 
@@ -45,20 +47,9 @@ const Products = () => {
     );
   });
 
-  // Pagination
-  const currentPage = parseInt(searchParams.get('page') || '1', 10);
-  const totalPages =
-    Math.ceil(filteredProducts.length / pageSize) === 0
-      ? 1
-      : Math.ceil(filteredProducts.length / pageSize);
-
-  const lastIndex = currentPage * pageSize;
-  const firstIndex = lastIndex - pageSize;
-  const currentProducts = filteredProducts.slice(firstIndex, lastIndex);
-
   // Function to handle URL updates
   const handleFilterUpdate = (title: string, price: string) => {
-    const params: any = { page: '1' };
+    const params: any = {};
     if (title) params.title = title;
     if (price) params.price = price;
     setSearchParams(params);
@@ -98,25 +89,6 @@ const Products = () => {
     setFilterPrice(searchParams.get('price') || '');
   }, [searchParams]);
 
-  // Handlers for pagination
-  const handleNextPage = () => {
-    if (currentPage < totalPages) {
-      setSearchParams({
-        ...Object.fromEntries(searchParams),
-        page: (currentPage + 1).toString()
-      });
-    }
-  };
-
-  const handlePrevPage = () => {
-    if (currentPage > 1) {
-      setSearchParams({
-        ...Object.fromEntries(searchParams),
-        page: (currentPage - 1).toString()
-      });
-    }
-  };
-
   // Handle no products found or empty state
   if (products === undefined || products.length === 0)
     throw new Response('No products found', {
@@ -128,8 +100,17 @@ const Products = () => {
     <>
       {/* Filter Form */}
       <Form className="my-4 d-flex justify-content-center">
-        <div className="d-flex flex-row align-items-center justify-content-evenly w-50">
-          <div className="d-flex flex-column">
+        <div className="d-flex flex-row align-items-center justify-content-center w-75">
+          <div className="d-flex flex-column mx-4">
+            <Form.Select>
+              {categories.map((category: Category) => (
+                <option key={category.id} value={category.id}>
+                  {category.name}
+                </option>
+              ))}
+            </Form.Select>
+          </div>
+          <div className="d-flex flex-column mx-2">
             <Form.Group
               controlId="filterTitle"
               className="d-flex flex-row align-items-center"
@@ -140,11 +121,12 @@ const Products = () => {
               <Form.Control
                 type="text"
                 placeholder="Enter product title"
+                value={filterTitle}
                 onChange={handleTitleChange} // Directly use the handler
               />
             </Form.Group>
           </div>
-          <div className="d-flex flex-column">
+          <div className="d-flex flex-column mx-2">
             <Form.Group
               controlId="filterPrice"
               className="d-flex flex-row align-items-center"
@@ -155,18 +137,19 @@ const Products = () => {
               <Form.Control
                 type="number"
                 placeholder="Enter max price"
-                onChange={handlePriceChange} // Directly use the handler
                 min={1}
+                value={filterPrice}
+                onChange={handlePriceChange} // Directly use the handler
               />
             </Form.Group>
           </div>
-          <div className="d-flex flex-column">
+          <div className="d-flex flex-column mx-4">
             <Button
               variant="secondary"
               onClick={() => {
                 setFilterTitle('');
                 setFilterPrice('');
-                setSearchParams({ page: '1' }); // Reset the URL parameters
+                setSearchParams({}); // Reset the URL parameters
               }}
             >
               Reset Filters
@@ -175,37 +158,8 @@ const Products = () => {
         </div>
       </Form>
 
-      {/* Product List */}
-      <Row className="d-flex justify-content-center mb-4">
-        {currentProducts.length > 0 ? (
-          currentProducts.map((product: Product) => (
-            <ProductCard key={product.id} product={product} />
-          ))
-        ) : (
-          <h3 className="text-center mt-5">No products match your filters.</h3>
-        )}
-      </Row>
-
-      {/* Pagination Controls */}
-      <div className="d-flex justify-content-center my-4 mt-auto">
-        <Button
-          variant="secondary"
-          disabled={currentPage === 1}
-          onClick={handlePrevPage}
-        >
-          Previous
-        </Button>
-        <span className="mx-3 align-self-center">
-          Page {currentPage} of {totalPages}
-        </span>
-        <Button
-          variant="secondary"
-          disabled={currentPage === totalPages}
-          onClick={handleNextPage}
-        >
-          Next
-        </Button>
-      </div>
+      {/* Paginated Product List */}
+      <Pagination products={filteredProducts} pageSize={pageSize} />
     </>
   );
 };
