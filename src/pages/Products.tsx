@@ -3,21 +3,25 @@ import { useState, useEffect } from 'react';
 import FakeStoreProvider from '../api/fake-store-api';
 import Product from '../types/product';
 import ProductCard from '../components/products/ProductCard';
-import { Row, Col, Form, Button } from 'react-bootstrap';
+import { Row, Form, Button } from 'react-bootstrap';
+import Category from '../types/category';
 
-const _inputDelay = 150;
+const _inputDelay = 150; // ms
 
 // Loader to fetch products
 const ProductsLoader = async () => {
+  const categories = await FakeStoreProvider.getCategories();
   const products = await FakeStoreProvider.getProducts();
-  return products;
+  return { products, categories };
 };
 
 const Products = () => {
   const products = useLoaderData() as Product[];
+  const categories = useLoaderData() as Category[];
 
   // Use search params for managing URL query parameters
   const [searchParams, setSearchParams] = useSearchParams();
+  const [pageSize, setPageSize] = useState(18);
 
   // Initialize filter states from URL parameters
   const initialFilterTitle = searchParams.get('title') || '';
@@ -40,9 +44,20 @@ const Products = () => {
     );
   });
 
+  // Pagination
+  const currentPage = parseInt(searchParams.get('page') || '1', 10);
+  const totalPages =
+    Math.ceil(filteredProducts.length / pageSize) === 0
+      ? 1
+      : Math.ceil(filteredProducts.length / pageSize);
+
+  const lastIndex = currentPage * pageSize;
+  const firstIndex = lastIndex - pageSize;
+  const currentProducts = filteredProducts.slice(firstIndex, lastIndex);
+
   // Function to handle URL updates
   const handleFilterUpdate = (title: string, price: string) => {
-    const params: any = {};
+    const params: any = { page: '1' };
     if (title) params.title = title;
     if (price) params.price = price;
     setSearchParams(params);
@@ -82,6 +97,25 @@ const Products = () => {
     setFilterPrice(searchParams.get('price') || '');
   }, [searchParams]);
 
+  // Handlers for pagination
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setSearchParams({
+        ...Object.fromEntries(searchParams),
+        page: (currentPage + 1).toString()
+      });
+    }
+  };
+
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      setSearchParams({
+        ...Object.fromEntries(searchParams),
+        page: (currentPage - 1).toString()
+      });
+    }
+  };
+
   // Handle no products found or empty state
   if (products === undefined || products.length === 0)
     throw new Response('No products found', {
@@ -92,21 +126,31 @@ const Products = () => {
   return (
     <>
       {/* Filter Form */}
-      <Form className="mb-4">
-        <Row>
-          <Col>
-            <Form.Group controlId="filterTitle">
-              <Form.Label>Filter by Title</Form.Label>
+      <Form className="my-4 d-flex justify-content-center">
+        <div className="d-flex flex-row align-items-center justify-content-evenly w-50">
+          <div className="d-flex flex-column">
+            <Form.Group
+              controlId="filterTitle"
+              className="d-flex flex-row align-items-center"
+            >
+              <Form.Label className="text-nowrap mb-0 me-4">
+                Filter by Title
+              </Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Enter product title"
                 onChange={handleTitleChange} // Directly use the handler
               />
             </Form.Group>
-          </Col>
-          <Col>
-            <Form.Group controlId="filterPrice">
-              <Form.Label>Filter by Price (max)</Form.Label>
+          </div>
+          <div className="d-flex flex-column">
+            <Form.Group
+              controlId="filterPrice"
+              className="d-flex flex-row align-items-center"
+            >
+              <Form.Label className="text-nowrap mb-0 me-4">
+                Filter by Price (max)
+              </Form.Label>
               <Form.Control
                 type="number"
                 placeholder="Enter max price"
@@ -114,33 +158,53 @@ const Products = () => {
                 min={1}
               />
             </Form.Group>
-          </Col>
-          <Col className="d-flex align-items-end">
+          </div>
+          <div className="d-flex flex-column">
             <Button
               variant="secondary"
-              className="ms-2"
               onClick={() => {
                 setFilterTitle('');
                 setFilterPrice('');
-                setSearchParams({}); // Reset the URL parameters
+                setSearchParams({ page: '1' }); // Reset the URL parameters
               }}
             >
               Reset Filters
             </Button>
-          </Col>
-        </Row>
+          </div>
+        </div>
       </Form>
 
       {/* Product List */}
-      <Row className="d-flex justify-content-center mb-auto">
-        {filteredProducts.length > 0 ? (
-          filteredProducts.map((product: Product) => (
+      <Row className="d-flex justify-content-center mb-4">
+        {currentProducts.length > 0 ? (
+          currentProducts.map((product: Product) => (
             <ProductCard key={product.id} product={product} />
           ))
         ) : (
-          <h3 className='text-center mt-5'>No products match your filters.</h3>
+          <h3 className="text-center mt-5">No products match your filters.</h3>
         )}
       </Row>
+
+      {/* Pagination Controls */}
+      <div className="d-flex justify-content-center my-4 mt-auto">
+        <Button
+          variant="secondary"
+          disabled={currentPage === 1}
+          onClick={handlePrevPage}
+        >
+          Previous
+        </Button>
+        <span className="mx-3 align-self-center">
+          Page {currentPage} of {totalPages}
+        </span>
+        <Button
+          variant="secondary"
+          disabled={currentPage === totalPages}
+          onClick={handleNextPage}
+        >
+          Next
+        </Button>
+      </div>
     </>
   );
 };

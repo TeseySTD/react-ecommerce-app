@@ -42,13 +42,13 @@ const ProductDetails = () => {
               src={product.images[0]}
               alt={product.title}
               onError={handleImageError}
-              style={{ width: '30rem'}}
+              style={{ width: '30rem' }}
             />
           </div>
 
           {/* Product Info and Actions */}
           <div className="flex-grow-1">
-            <Card.Body className='d-flex flex-column'>
+            <Card.Body className="d-flex flex-column">
               <Card.Title className="fw-bold fs-3">{product.title}</Card.Title>
               <Badge bg="secondary" className="mb-3 me-auto fs-6">
                 {product.category.name}
@@ -79,7 +79,7 @@ const ProductDetails = () => {
                   {inFavorites ? 'Added to Favorites' : 'Add to Favorites'}
                 </Button>
               </div>
-              <div className='mt-auto'>
+              <div className="mt-auto">
                 <Link to="/" className="btn btn-outline-secondary w-100 mt-3">
                   Back to Products
                 </Link>
