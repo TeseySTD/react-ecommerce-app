@@ -16,8 +16,9 @@ const ProductsLoader = async () => {
 };
 
 const Products = () => {
-  const products = useLoaderData() as Product[];
-  const categories = useLoaderData() as Category[];
+  const loaderData = useLoaderData() as { products: Product[]; categories: Category[] };
+  const products = loaderData.products as Product[];
+  const categories = loaderData.categories as Category[];
 
   // Use search params for managing URL query parameters
   const [searchParams, setSearchParams] = useSearchParams();
@@ -139,6 +140,7 @@ const Products = () => {
               <Form.Control
                 type="text"
                 placeholder="Enter product title"
+                value={filterTitle}
                 onChange={handleTitleChange} // Directly use the handler
               />
             </Form.Group>
@@ -154,8 +156,9 @@ const Products = () => {
               <Form.Control
                 type="number"
                 placeholder="Enter max price"
-                onChange={handlePriceChange} // Directly use the handler
                 min={1}
+                value={filterPrice}
+                onChange={handlePriceChange} // Directly use the handler
               />
             </Form.Group>
           </div>
