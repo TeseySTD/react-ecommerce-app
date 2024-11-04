@@ -14,14 +14,14 @@ const Home = () => {
   const products = useLoaderData() as Product[];
 
   return (
-    <div className="d-flex flex-column align-items-center justify-content-center">
-      <div className="mt-5 text-center">
+    <div className="d-flex flex-column align-items-center justify-content-center my-auto">
+      <div className="mt-4 text-center">
         <h1 className="display-3 fw-bold text-black">Welcome to Our Store</h1>
-        <p className="lead text-muted mb-4">
+        <p className="lead text-muted mb-2">
           Discover our latest products and exclusive deals, curated just for
           you.
         </p>
-        <Link to="/products" className="btn btn-outline-dark btn-lg mb-4">
+        <Link to="/products" className="btn btn-outline-dark btn-lg mb-3">
           Shop Now
         </Link>
       </div>

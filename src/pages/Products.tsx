@@ -111,6 +111,7 @@ const Products = () => {
                 type="number"
                 placeholder="Enter max price"
                 onChange={handlePriceChange} // Directly use the handler
+                min={1}
               />
             </Form.Group>
           </Col>
@@ -131,13 +132,13 @@ const Products = () => {
       </Form>
 
       {/* Product List */}
-      <Row className="justify-content-center">
+      <Row className="d-flex justify-content-center mb-auto">
         {filteredProducts.length > 0 ? (
           filteredProducts.map((product: Product) => (
             <ProductCard key={product.id} product={product} />
           ))
         ) : (
-          <p>No products match your filters.</p>
+          <h3 className='text-center mt-5'>No products match your filters.</h3>
         )}
       </Row>
     </>
