@@ -1,5 +1,5 @@
 import { useLoaderData, useSearchParams } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import FakeStoreProvider from '../api/fake-store-api';
 import Product from '../types/product';
 import Pagination from '../components/products/Pagination';
@@ -37,6 +37,9 @@ const Products = () => {
 
   // State for handling the timer
   const [timer, setTimer] = useState<NodeJS.Timeout | null>(null);
+
+  // Ref for the filter form
+  const filterFormRef = useRef<HTMLFormElement>(null);
 
   // Apply filtering based on query parameters
   const filteredProducts = products.filter((product: Product) => {
@@ -99,7 +102,7 @@ const Products = () => {
   return (
     <>
       {/* Filter Form */}
-      <Form className="my-4 d-flex justify-content-center">
+      <Form className="my-4 d-flex justify-content-center" ref={filterFormRef}>
         <div className="d-flex flex-row align-items-center justify-content-center w-75">
           <div className="d-flex flex-column mx-4">
             <Form.Select>
@@ -121,7 +124,6 @@ const Products = () => {
               <Form.Control
                 type="text"
                 placeholder="Enter product title"
-                value={filterTitle}
                 onChange={handleTitleChange} // Directly use the handler
               />
             </Form.Group>
@@ -138,7 +140,6 @@ const Products = () => {
                 type="number"
                 placeholder="Enter max price"
                 min={1}
-                value={filterPrice}
                 onChange={handlePriceChange} // Directly use the handler
               />
             </Form.Group>
@@ -149,6 +150,7 @@ const Products = () => {
               onClick={() => {
                 setFilterTitle('');
                 setFilterPrice('');
+                filterFormRef.current?.reset();
                 setSearchParams({}); // Reset the URL parameters
               }}
             >
