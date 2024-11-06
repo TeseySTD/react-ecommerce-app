@@ -4,6 +4,7 @@ import FakeStoreProvider from '../../api/fake-store-api';
 import Product from '../../types/product';
 import { Button, Container, Card, Badge } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import CardImage, { notFoundImage } from './CardImage';
 
 const ProductDetailsLoader: LoaderFunction = async (params: any) => {
   const id = parseInt(params.params.productId);
@@ -28,7 +29,7 @@ const ProductDetails = () => {
   };
 
   const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>) => {
-    e.currentTarget.src = 'https://placehold.co/50';
+    e.currentTarget.src = notFoundImage;
   };
 
   return (
@@ -37,13 +38,7 @@ const ProductDetails = () => {
         <div className="d-flex">
           {/* Product Image */}
           <div className="me-4">
-            <Card.Img
-              variant="top"
-              src={product.images[0]}
-              alt={product.title}
-              onError={handleImageError}
-              style={{ width: '30rem' }}
-            />
+            <CardImage name={product.title} images={product.images} style={{ width: '30rem' }} />
           </div>
 
           {/* Product Info and Actions */}
