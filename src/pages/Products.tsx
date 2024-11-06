@@ -38,7 +38,7 @@ const Products = () => {
   // State for handling the timer
   const [timer, setTimer] = useState<NodeJS.Timeout | null>(null);
 
-  // Ref for filter form
+  // Ref for the filter form
   const filterFormRef = useRef<HTMLFormElement>(null);
 
   // Apply filtering based on query parameters

@@ -1,22 +1,16 @@
 import { Link } from 'react-router-dom';
 import Product from '../../types/product';
+import { Col } from 'react-bootstrap';
+import CardImage from './CardImage';
 
 interface ProductCardProps {
   product: Product;
 }
 
 const ProductCard = (props: ProductCardProps) => {
-  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>) => {
-    e.currentTarget.src = 'https://placehold.co/50';
-  };
   return (
     <div className="card p-3 m-2" style={{ width: '20rem' }}>
-      <img
-        src={props.product.images[0]}
-        className="card-img-top"
-        alt={props.product.title}
-        onError={handleImageError}
-      />
+      <CardImage name={props.product.title} images={props.product.images}  />
       <div className="card-body px-1 pb-1 d-flex flex-column">
         <h6 className="card-title text-black">{props.product.title}</h6>
         <p className="card-text mb-2 text-muted">
