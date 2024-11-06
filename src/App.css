@@ -25,6 +25,22 @@ body {
   min-height: 100vh;
 }
 
+.favorites-position {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  z-index: 1;
+  cursor: pointer;
+  background-color: #f4faf6aa;
+  border-radius: 20%;
+  padding: 2px;
+  transition: all 0.15s ease-in-out;
+}
+
+.favorites-position:hover {
+  background-color: #f4faf6;
+}
+
 footer {
   height: 100px;
 }

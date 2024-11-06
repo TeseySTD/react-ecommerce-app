@@ -1,7 +1,7 @@
 import Product from '../types/product';
 
 export default class StorageService {
-    static getFavorites() {
+    static getFavorites(): Product[] {
         const favorites = localStorage.getItem('favorites');
         return favorites ? (JSON.parse(favorites) as Product[]) : [];
     }
