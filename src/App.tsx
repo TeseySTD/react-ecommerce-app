@@ -20,6 +20,7 @@ import ProductDetails, {
   ProductDetailsLoader
 } from './components/products/ProductDetails';
 import Favorites from './pages/Favorites';
+import Cart from './pages/Cart';
 
 const RoutesJsx = (
   <Route path="/" errorElement={<ServerError />} element={<Layout />}>
@@ -30,7 +31,7 @@ const RoutesJsx = (
       element={<ProductDetails />}
       loader={ProductDetailsLoader}
     />
-    <Route path="cart" element={<h1>Cart</h1>} />
+    <Route path="cart" element={<Cart />} />
     <Route path="favorites" element={<Favorites />} />
     <Route path="*" element={<NotFound />} />
   </Route>

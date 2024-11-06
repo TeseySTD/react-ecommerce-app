@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 import Product from '../../types/product';
-import { Col } from 'react-bootstrap';
 
 interface ProductCardProps {
   product: Product;
