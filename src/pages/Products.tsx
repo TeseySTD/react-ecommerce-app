@@ -105,13 +105,21 @@ const Products = () => {
       <Form className="my-4 d-flex justify-content-center" ref={filterFormRef}>
         <div className="d-flex flex-row align-items-center justify-content-center w-75">
           <div className="d-flex flex-column mx-4">
-            <Form.Select>
-              {categories.map((category: Category) => (
-                <option key={category.id} value={category.id}>
-                  {category.name}
-                </option>
-              ))}
-            </Form.Select>
+            <Form.Group
+              controlId="filterCategory"
+              className="d-flex flex-row align-items-center"
+            >
+              <Form.Label className="text-nowrap mb-0 me-4">
+                Filter by Category
+              </Form.Label>
+              <Form.Select>
+                {categories.map((category: Category) => (
+                  <option key={category.id} value={category.id}>
+                    {category.name}
+                  </option>
+                ))}
+              </Form.Select>
+            </Form.Group>
           </div>
           <div className="d-flex flex-column mx-2">
             <Form.Group
