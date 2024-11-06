@@ -31,7 +31,7 @@ const Pagination = (props: PaginationProps) => {
             <ProductCard key={product.id} product={product} />
           ))
         ) : (
-          <h3 className="text-center mt-5">No products match your filters.</h3>
+          <h3 className="text-center w-100 mt-5">No products found.</h3>
         )}
       </Row>
 
@@ -64,5 +64,4 @@ const Pagination = (props: PaginationProps) => {
   );
 };
 
-export { type PaginationProps };
 export default Pagination;

@@ -26,9 +26,9 @@ const Home = () => {
         </Link>
       </div>
 
-      <div className="d-flex flex-column align-items-center mb-4">
+      <div className="d-flex flex-column w-100 align-items-center mb-4">
         <h2 className="text-secondary mb-3">Featured Products</h2>
-        <div className="d-flex flex-row mb-2">
+        <div className="d-flex flex-row w-100 justify-content-center mb-2">
           {products.map((product: Product) => (
             <ProductCard product={product} />
           ))}

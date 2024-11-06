@@ -4,6 +4,9 @@ import FakeStoreProvider from '../../api/fake-store-api';
 import Product from '../../types/product';
 import { Button, Container, Card, Badge } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import StorageService from '../../utils/storage-service';
+import favorite from '../../assets/favorite-star.svg';
+import favoriteFill from '../../assets/favorite-star-fill.svg';
 import CardImage, { notFoundImage } from './CardImage';
 
 const ProductDetailsLoader: LoaderFunction = async (params: any) => {
@@ -15,8 +18,10 @@ const ProductDetailsLoader: LoaderFunction = async (params: any) => {
 
 const ProductDetails = () => {
   const product = useLoaderData() as Product;
-  const [inCart, setInCart] = useState(false);
-  const [inFavorites, setInFavorites] = useState(false);
+  const [inCart, setInCart] = useState(StorageService.isCartItem(product.id));
+  const [inFavorites, setInFavorites] = useState(
+    StorageService.isFavorite(product.id)
+  );
 
   const handleAddToCart = () => {
     // Logic to add product to cart
@@ -24,8 +29,13 @@ const ProductDetails = () => {
   };
 
   const handleAddToFavorites = () => {
-    // Logic to add product to favorites
-    setInFavorites(true);
+    if (inFavorites) {
+      StorageService.removeFavorite(product.id);
+      setInFavorites(false);
+    } else {
+      StorageService.addFavorite(product);
+      setInFavorites(true);
+    }
   };
 
   const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>) => {
@@ -43,7 +53,7 @@ const ProductDetails = () => {
 
           {/* Product Info and Actions */}
           <div className="flex-grow-1">
-            <Card.Body className="d-flex flex-column">
+            <Card.Body className="d-flex pb-0 h-100 flex-column">
               <Card.Title className="fw-bold fs-3">{product.title}</Card.Title>
               <Badge bg="secondary" className="mb-3 me-auto fs-6">
                 {product.category.name}
@@ -53,12 +63,12 @@ const ProductDetails = () => {
               </Card.Text>
               <h4 className="fw-bold">Price: ${product.price}</h4>
 
-              <div className="mt-4">
+              <div className="mt-1">
                 <h5 className="text-success">In Stock</h5>
               </div>
 
               {/* Action Buttons */}
-              <div className="mt-2 d-flex gap-2">
+              <div className="mt-auto me-2 d-flex gap-2">
                 <Button
                   variant={inCart ? 'success' : 'dark'}
                   onClick={handleAddToCart}
@@ -66,15 +76,15 @@ const ProductDetails = () => {
                 >
                   {inCart ? 'Added to Cart' : 'Add to Cart'}
                 </Button>
-                <Button
-                  variant={inFavorites ? 'warning' : 'info'}
-                  onClick={handleAddToFavorites}
-                  disabled={inFavorites}
-                >
-                  {inFavorites ? 'Added to Favorites' : 'Add to Favorites'}
-                </Button>
+                <a className="d-flex" onClick={handleAddToFavorites}>
+                  {inFavorites ? (
+                    <img src={favoriteFill} alt="" style={{ width: '2rem' }} />
+                  ) : (
+                    <img src={favorite} alt="" style={{ width: '2rem' }} />
+                  )}
+                </a>
               </div>
-              <div className="mt-auto">
+              <div>
                 <Link to="/" className="btn btn-outline-secondary w-100 mt-3">
                   Back to Products
                 </Link>

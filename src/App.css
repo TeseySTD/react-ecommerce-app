@@ -28,3 +28,20 @@ body {
 footer {
   height: 100px;
 }
+
+a img:active {
+  animation-name: animation;
+  animation-duration: 0.1s;
+}
+
+@keyframes animation {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
