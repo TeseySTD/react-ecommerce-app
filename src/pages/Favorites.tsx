@@ -9,10 +9,6 @@ const Favorites = () => {
   const [favorites, setFavorites] = useState(StorageService.getFavorites());
   const isEmpty = favorites.length === 0;
 
-  useEffect(() => {
-    setFavorites(StorageService.getFavorites());
-  }, [favorites]);
-
   return (
     <div className="d-flex flex-column align-items-center justify-content-center my-auto">
       {isEmpty ? (
