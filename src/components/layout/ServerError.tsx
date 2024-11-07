@@ -1,4 +1,3 @@
-import React from 'react';
 import { isRouteErrorResponse, Link, useRouteError } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import NotFound from './NotFound';

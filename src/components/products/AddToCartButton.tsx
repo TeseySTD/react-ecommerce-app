@@ -21,7 +21,7 @@ const AddToCartButton = (props: AddToCartButtonProps) => {
   };
 
   const handleRemoveFromCart = () => {
-    // Logic to remove product from cart
+    // Logic to remove product to cart
     setQuantity(quantity - 1);
     if (quantity === 1) {
       setInCart(false);
@@ -31,7 +31,7 @@ const AddToCartButton = (props: AddToCartButtonProps) => {
   return (
     <>
       {inCart ? (
-        <div className="d-flex flex-row align-items-center">
+        <div className="d-flex flex-row justify-content-center align-items-center">
           <Button
             variant="primary"
             id="minus-button"
