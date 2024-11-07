@@ -33,7 +33,7 @@ body {
   cursor: pointer;
   background-color: #f4faf6aa;
   border-radius: 20%;
-  padding: 2px;
+  padding: 4px;
   transition: all 0.15s ease-in-out;
 }
 
