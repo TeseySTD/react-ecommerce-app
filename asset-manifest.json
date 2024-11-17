@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/static/css/main.e437a0b0.css",
+    "main.js": "/static/js/main.a852905b.js",
+    "static/js/453.393c227d.chunk.js": "/static/js/453.393c227d.chunk.js",
+    "static/media/bootstrap-icons.woff?": "/static/media/bootstrap-icons.39795c0b4513de014cf8.woff",
+    "static/media/bootstrap-icons.woff2?": "/static/media/bootstrap-icons.b7bcc075b395c14ce8c2.woff2",
+    "static/media/hollow-depressed.gif": "/static/media/hollow-depressed.493874c368d8827f209f.gif",
+    "static/media/no-favorites.png": "/static/media/no-favorites.1934c392ccfb0699099b.png",
+    "static/media/empty-cart.png": "/static/media/empty-cart.7427eecf9f78c8f6c0a7.png",
+    "static/media/heart-thin-icon.svg": "/static/media/heart-thin-icon.f7ab74bf5262c82356fb4408385e89eb.svg",
+    "static/media/heart-icon.svg": "/static/media/heart-icon.ad94ed937b201e17e3bdd336c7353db7.svg",
+    "index.html": "/index.html",
+    "main.e437a0b0.css.map": "/static/css/main.e437a0b0.css.map",
+    "main.a852905b.js.map": "/static/js/main.a852905b.js.map",
+    "453.393c227d.chunk.js.map": "/static/js/453.393c227d.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e437a0b0.css",
+    "static/js/main.a852905b.js"
+  ]
+}
