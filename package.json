@@ -24,6 +24,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "lint": "eslint --fix . --ext .ts,.tsx",
     "format": "prettier --write src/",
     "eject": "react-scripts eject"
