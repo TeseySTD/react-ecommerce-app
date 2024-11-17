@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const AppHeader = () => {
   return (
     <nav className="layout-nav-element navbar navbar-expand-lg sticky-top">
@@ -19,26 +21,26 @@ const AppHeader = () => {
         <div className="collapse navbar-collapse" id="navbarText">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item mx-3">
-              <a className="nav-link fw-bold" href="/">
+              <Link to="/" className="nav-link fw-bold">
                 Home
-              </a>
+              </Link>
             </li>
             <li className="nav-item mx-3">
-              <a className="nav-link fw-bold" href="/products">
+              <Link to="/products" className="nav-link fw-bold">
                 Products
-              </a>
+              </Link>
             </li>
           </ul>
           <ul className="navbar-nav">
             <li className="nav-item mx-3">
-              <a className="nav-link fw-bold" href="/cart">
+              <Link to="/cart" className="nav-link fw-bold">
                 Cart
-              </a>
+              </Link>
             </li>
             <li className="nav-item mx-3 me-4">
-              <a className="nav-link fw-bold" href="/favorites">
+              <Link to="/favorites" className="nav-link fw-bold">
                 Favorites
-              </a>
+              </Link>
             </li>
           </ul>
         </div>
