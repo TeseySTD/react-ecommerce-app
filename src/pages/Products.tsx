@@ -8,7 +8,7 @@ import Category from '../types/category';
 
 const _inputDelay = 150; // ms
 
-// Loader to fetch products
+// Loader to fetch products and categories
 const ProductsLoader = async () => {
   const categories = await FakeStoreProvider.getCategories();
   const products = await FakeStoreProvider.getProducts();
@@ -23,80 +23,83 @@ const Products = () => {
   const products = loaderData.products as Product[];
   const categories = loaderData.categories as Category[];
 
-  // Use search params for managing URL query parameters
   const [searchParams, setSearchParams] = useSearchParams();
   const [pageSize] = useState(10);
 
-  // Initialize filter states from URL parameters
+  // Initialize filter states
   const initialFilterTitle = searchParams.get('title') || '';
   const initialFilterPrice = searchParams.get('price') || '';
+  const initialFilterCategory = searchParams.get('category') || '';
 
-  // Initialize state, only set from URL once on load
   const [filterTitle, setFilterTitle] = useState(initialFilterTitle);
   const [filterPrice, setFilterPrice] = useState(initialFilterPrice);
+  const [filterCategory, setFilterCategory] = useState(initialFilterCategory);
 
-  // State for handling the timer
   const [timer, setTimer] = useState<NodeJS.Timeout | null>(null);
-
-  // Ref for the filter form
   const filterFormRef = useRef<HTMLFormElement>(null);
 
-  // Apply filtering based on query parameters
+  // Filtered products based on filters
   const filteredProducts = products.filter((product: Product) => {
     return (
       (!filterTitle ||
         product.title.toLowerCase().includes(filterTitle.toLowerCase())) &&
-      (!filterPrice || product.price <= parseFloat(filterPrice))
+      (!filterPrice || product.price <= parseFloat(filterPrice)) &&
+      (!filterCategory || product.category.id === parseInt(filterCategory))
     );
   });
 
-  // Function to handle URL updates
-  const handleFilterUpdate = (title: string, price: string) => {
+  const handleFilterUpdate = (
+    title: string,
+    price: string,
+    category: string
+  ) => {
     const params: any = {};
     if (title) params.title = title;
     if (price) params.price = price;
+    if (category) params.category = category;
     setSearchParams(params);
   };
 
-  // Handle input change for title
+  const debounceFilterChange = (
+    callback: () => void,
+    delay: number
+  ) => {
+    if (timer) clearTimeout(timer);
+    setTimer(setTimeout(callback, delay));
+  };
+
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
-
-    // Clear the existing timer and set a new one
-    if (timer) clearTimeout(timer);
-    setTimer(
-      setTimeout(() => {
-        handleFilterUpdate(newValue, filterPrice); // Use the latest title and current price
-        setFilterTitle(newValue);
-      }, _inputDelay)
-    ); // delay
+    debounceFilterChange(() => {
+      handleFilterUpdate(newValue, filterPrice, filterCategory);
+      setFilterTitle(newValue);
+    }, _inputDelay);
   };
 
-  // Handle input change for price
   const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
-
-    // Clear the existing timer and set a new one
-    if (timer) clearTimeout(timer);
-    setTimer(
-      setTimeout(() => {
-        handleFilterUpdate(filterTitle, newValue); // Use the latest price and current title
-        setFilterPrice(newValue);
-      }, _inputDelay)
-    ); //  delay
+    debounceFilterChange(() => {
+      handleFilterUpdate(filterTitle, newValue, filterCategory);
+      setFilterPrice(newValue);
+    }, _inputDelay);
   };
 
-  // Sync filter inputs with query parameters from the URL on page load
+  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const newValue = e.target.value;
+    handleFilterUpdate(filterTitle, filterPrice, newValue);
+    setFilterCategory(newValue);
+  };
+
   useEffect(() => {
     setFilterTitle(searchParams.get('title') || '');
     setFilterPrice(searchParams.get('price') || '');
+    setFilterCategory(searchParams.get('category') || '');
   }, [searchParams]);
 
-  // Handle no products found or empty state
   if (products === undefined || products.length === 0)
     throw new Response('No products found', {
-      status: 500,
-      statusText: 'No products found'
+      statusText: 'No products found',
+      status: 500
     });
 
   return (
@@ -112,7 +115,11 @@ const Products = () => {
               <Form.Label className="text-nowrap mb-0 me-4">
                 Filter by Category
               </Form.Label>
-              <Form.Select>
+              <Form.Select
+                value={filterCategory}
+                onChange={handleCategoryChange}
+              >
+                <option value="">All Categories</option>
                 {categories.map((category: Category) => (
                   <option key={category.id} value={category.id}>
                     {category.name}
@@ -132,7 +139,8 @@ const Products = () => {
               <Form.Control
                 type="text"
                 placeholder="Enter product title"
-                onChange={handleTitleChange} // Directly use the handler
+                value={filterTitle}
+                onChange={handleTitleChange}
               />
             </Form.Group>
           </div>
@@ -148,7 +156,8 @@ const Products = () => {
                 type="number"
                 placeholder="Enter max price"
                 min={1}
-                onChange={handlePriceChange} // Directly use the handler
+                value={filterPrice}
+                onChange={handlePriceChange}
               />
             </Form.Group>
           </div>
@@ -158,6 +167,7 @@ const Products = () => {
               onClick={() => {
                 setFilterTitle('');
                 setFilterPrice('');
+                setFilterCategory('');
                 filterFormRef.current?.reset();
                 setSearchParams({}); // Reset the URL parameters
               }}

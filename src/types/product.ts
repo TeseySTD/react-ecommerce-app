@@ -7,6 +7,7 @@ export default class Product {
     description: string;
     category: Category;
     images: string[];
+
     constructor(
         id: number,
         title: string,
@@ -21,5 +22,23 @@ export default class Product {
         this.description = description;
         this.category = category;
         this.images = images ?? ['https://placehold.co/50'];
+    }
+}
+
+// Новий тип для продуктів з кількістю
+export class ProductWithQuantity extends Product {
+    quantity: number;
+
+    constructor(
+        id: number,
+        title: string,
+        price: number,
+        description: string,
+        category: Category,
+        quantity: number,
+        images?: string[]
+    ) {
+        super(id, title, price, description, category, images);
+        this.quantity = quantity;
     }
 }
