@@ -51,7 +51,7 @@ const ProductDetails = () => {
                 <AddToFavoritesButton product={product} />
               </div>
               <div>
-                <Link to="/" className="btn btn-outline-secondary w-100 mt-3">
+                <Link to="/products" className="btn btn-outline-secondary w-100 mt-3">
                   Back to Products
                 </Link>
               </div>

@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import StorageService from '../../utils/storage-service';
-import Product from '../../types/product';
+import Product, { ProductWithQuantity } from '../../types/product';
 import { Button } from 'react-bootstrap';
 
 interface AddToCartButtonProps {
   product: Product;
   quantity: number;
+  setState?: React.Dispatch<React.SetStateAction<ProductWithQuantity[]>>;
+  disabled?: boolean;
 }
 
 const AddToCartButton = (props: AddToCartButtonProps) => {
@@ -29,6 +31,7 @@ const AddToCartButton = (props: AddToCartButtonProps) => {
   const handleAddToCart = () => {
     const newQuantity = quantity + 1;
     StorageService.addCartItem({ ...product, quantity: newQuantity }); // Add or update in storage
+    if(props.setState) props.setState(StorageService.getCart());
     setInCart(true);
     setQuantity(newQuantity);
   };
@@ -45,18 +48,9 @@ const AddToCartButton = (props: AddToCartButtonProps) => {
       setQuantity(0);
       setInCart(false);
     }
+    if(props.setState) props.setState(StorageService.getCart());
   };
 
-  // Handle updating the quantity directly in the cart (for when the user re-selects a different quantity)
-  const handleQuantityChange = (newQuantity: number) => {
-    setQuantity(newQuantity);
-    if (newQuantity > 0) {
-      StorageService.addCartItem({ ...product, quantity: newQuantity }); // Update or add item with the new quantity
-    } else {
-      StorageService.removeCartItem(product.id); // If quantity is 0, remove item
-      setInCart(false);
-    }
-  };
 
   return (
     <>
@@ -67,6 +61,7 @@ const AddToCartButton = (props: AddToCartButtonProps) => {
             id="minus-button"
             onClick={handleRemoveFromCart}
             style={{ width: '40px' }}
+            disabled={props.disabled}
           >
             {quantity === 1 ? (
               <p className="m-0 p-0">
@@ -85,6 +80,7 @@ const AddToCartButton = (props: AddToCartButtonProps) => {
             id="plus-button"
             onClick={handleAddToCart}
             style={{ width: '40px' }}
+            disabled={props.disabled}
           >
             <p className="m-0 p-0">+</p>
           </Button>

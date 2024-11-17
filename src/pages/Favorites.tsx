@@ -25,7 +25,10 @@ const Favorites = () => {
           <div className="mt-4 text-center">
             <h2 className="display-3 fw-bold text-black">Your Favorites</h2>
             <h3 className="text-secondary mb-3">Favorite Products</h3>
-            <Button className="mb-2" variant="secondary">
+            <Button className="mb-2" variant="secondary" onClick={() => {
+              setFavorites([]); 
+              StorageService.setFavorites([]);
+              }}>
               Clear Favorites
             </Button>
           </div>

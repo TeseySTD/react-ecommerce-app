@@ -6,7 +6,7 @@ import Pagination from '../components/products/Pagination';
 import { Form, Button } from 'react-bootstrap';
 import Category from '../types/category';
 
-const _inputDelay = 150; // ms
+const _inputDelay = 200; // ms
 
 // Loader to fetch products and categories
 const ProductsLoader = async () => {
@@ -68,8 +68,8 @@ const Products = () => {
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
     debounceFilterChange(() => {
-      handleFilterUpdate(newValue, filterPrice, filterCategory);
       setFilterTitle(newValue);
+      handleFilterUpdate(newValue, filterPrice, filterCategory);
     }, _inputDelay);
   };
 
@@ -113,7 +113,6 @@ const Products = () => {
                 Filter by Category
               </Form.Label>
               <Form.Select
-                value={filterCategory}
                 onChange={handleCategoryChange}
               >
                 <option value="">All Categories</option>
@@ -136,7 +135,6 @@ const Products = () => {
               <Form.Control
                 type="text"
                 placeholder="Enter product title"
-                value={filterTitle}
                 onChange={handleTitleChange}
               />
             </Form.Group>
@@ -153,7 +151,6 @@ const Products = () => {
                 type="number"
                 placeholder="Enter max price"
                 min={1}
-                value={filterPrice}
                 onChange={handlePriceChange}
               />
             </Form.Group>

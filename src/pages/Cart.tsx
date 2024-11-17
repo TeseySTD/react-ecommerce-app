@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import StorageService from '../utils/storage-service';
 import emptyCart from '../assets/empty-cart.png';
 import { Link } from 'react-router-dom';
@@ -12,6 +12,8 @@ const Cart = () => {
   const [products, setProducts] = useState<ProductWithQuantity[]>(
     StorageService.getCart()
   );
+  const [isForOrder, setIsForOrder] = useState(false);
+  const isForOrderRef = useRef(isForOrder);
   const isEmpty = products.length === 0;
 
   // Calculate Order Total and Sales Volume
@@ -26,49 +28,54 @@ const Cart = () => {
 
   useEffect(() => {
     setProducts(StorageService.getCart());
-  }, [products]);
+  }, []);
+
+  useEffect(() => {
+    isForOrderRef.current = isForOrder;
+  }, [isForOrder]);
+
+  const toastCloseButton = (
+    <i
+      className="bi bi-x-lg"
+      style={{
+        cursor: 'pointer'
+      }}
+      onClick={() => {
+        setIsForOrder(false);
+        // Close the toast
+        toast.dismiss()
+      }}
+    >
+    </i>
+  )
+
+  const toastDismissHandler = () => {
+    if (isForOrderRef.current) {
+      // Clear cart after successful checkout
+      setProducts([]);
+      StorageService.setCart([]);
+      setIsForOrder(false);
+    }
+  }
 
   const handleCheckout = () => {
-    // Logic to handle checkout
-    console.log('Checkout initiated:', products);
-
-    //Clear cart after successful checkout
-    setProducts([]);
-    StorageService.setCart([]);
+    setIsForOrder(true);
 
     // Show toast notification
-    toast.success('Checkout successful!', {
+    toast.success('Checkout successful! You can cancel the order by clicking the X button.', {
       position: "bottom-left",
-      autoClose: 5000,
+      autoClose: 3000,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
       draggable: true,
+      onClose: toastDismissHandler,
       progress: undefined,
       theme: "dark",
       transition: Bounce,
       });
   };
 
-  // Handle quantity change, including removing items when quantity is 0
-  const handleQuantityChange = (
-    product: ProductWithQuantity,
-    newQuantity: number
-  ) => {
-    if (newQuantity <= 0) {
-      // Remove the item if quantity is 0 or less
-      const updatedProducts = products.filter((p) => p.id !== product.id);
-      setProducts(updatedProducts);
-      StorageService.setCart(updatedProducts);
-    } else {
-      // Update the quantity of the existing item
-      const updatedProducts = products.map((p) =>
-        p.id === product.id ? { ...p, quantity: newQuantity } : p
-      );
-      setProducts(updatedProducts);
-      StorageService.setCart(updatedProducts);
-    }
-  };
 
   return (
     <div className="d-flex text-center justify-content-center mb-auto">
@@ -78,6 +85,7 @@ const Cart = () => {
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick
+        closeButton={toastCloseButton}
         rtl={false}
         pauseOnFocusLoss
         draggable
@@ -120,6 +128,8 @@ const Cart = () => {
                           <AddToCartButton
                             product={product}
                             quantity={product.quantity}
+                            setState={setProducts}
+                            disabled={isForOrder}
                           />
                         </td>
                         <td>
@@ -142,6 +152,7 @@ const Cart = () => {
                   <Button
                     variant="light"
                     className="mt-3 w-100"
+                    disabled={isForOrder}
                     onClick={() => {
                       setProducts([]);
                       StorageService.setCart([]);
@@ -153,6 +164,7 @@ const Cart = () => {
                     variant="light"
                     onClick={handleCheckout}
                     className="mt-3 w-100"
+                    disabled={isForOrder}
                   >
                     Checkout
                   </Button>
