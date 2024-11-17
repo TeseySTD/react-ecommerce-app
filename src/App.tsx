@@ -40,7 +40,7 @@ const RoutesJsx = (
 
 const routes = createRoutesFromElements(RoutesJsx);
 
-const router = createBrowserRouter(routes, {basename:'react-ecommerce-app'});
+const router = createBrowserRouter(routes, {basename:'https://teseystd.github.io/react-ecommerce-app/'});
 
 function App() {
   return <RouterProvider router={router} />;
