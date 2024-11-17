@@ -8,7 +8,8 @@ import {
   Route,
   createBrowserRouter,
   createRoutesFromElements,
-  RouterProvider
+  RouterProvider,
+  createHashRouter
 } from 'react-router-dom';
 import NotFound from './components/layout/NotFound';
 import Home, { HomeLoader } from './pages/Home';
@@ -40,7 +41,7 @@ const RoutesJsx = (
 
 const routes = createRoutesFromElements(RoutesJsx);
 
-const router = createBrowserRouter(routes, {basename:'https://teseystd.github.io/react-ecommerce-app/'});
+const router = createHashRouter(routes, {basename:'https://teseystd.github.io/react-ecommerce-app/'});
 
 function App() {
   return <RouterProvider router={router} />;
