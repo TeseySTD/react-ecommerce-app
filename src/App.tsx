@@ -23,7 +23,7 @@ import Favorites from './pages/Favorites';
 import Cart from './pages/Cart';
 
 const RoutesJsx = (
-  <Route path="https://teseystd.github.io/react-ecommerce-app/" errorElement={<ServerError />} element={<Layout />}>
+  <Route path="/react-ecommerce-app/" errorElement={<ServerError />} element={<Layout />}>
     <Route index element={<Home />} loader={HomeLoader} />
     <Route path="products" element={<Products />} loader={ProductsLoader} />
     <Route
