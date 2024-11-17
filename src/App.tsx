@@ -41,7 +41,7 @@ const RoutesJsx = (
 
 const routes = createRoutesFromElements(RoutesJsx);
 
-const router = createHashRouter(routes);
+const router = createHashRouter(routes, { basename: '/' });
 
 function App() {
   return <RouterProvider router={router} />;
