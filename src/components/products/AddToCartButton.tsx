@@ -5,6 +5,7 @@ import { Button } from 'react-bootstrap';
 
 interface AddToCartButtonProps {
   product: Product;
+  quantity: number;
 }
 
 const AddToCartButton = (props: AddToCartButtonProps) => {
@@ -17,7 +18,9 @@ const AddToCartButton = (props: AddToCartButtonProps) => {
   // Sync the quantity state with the local storage data
   useEffect(() => {
     if (inCart) {
-      const cartItem = StorageService.getCart().find((item) => item.id === product.id);
+      const cartItem = StorageService.getCart().find(
+        (item) => item.id === product.id
+      );
       setQuantity(cartItem?.quantity || 0);
     }
   }, [inCart, product.id]);
@@ -60,12 +63,18 @@ const AddToCartButton = (props: AddToCartButtonProps) => {
       {inCart ? (
         <div className="d-flex flex-row justify-content-center align-items-center">
           <Button
-            variant="primary"
+            variant={quantity === 1 ? 'danger' : 'primary'}
             id="minus-button"
             onClick={handleRemoveFromCart}
             style={{ width: '40px' }}
           >
-            <p className="m-0 p-0">-</p>
+            {quantity === 1 ? (
+              <p className="m-0 p-0">
+                <i className="bi bi-trash"></i>
+              </p>
+            ) : (
+              <p className="m-0 p-0">-</p>
+            )}
           </Button>
           {/* Display quantity */}
           <span className="mb-0 mx-2 border border-2 rounded py-1 px-3">
@@ -81,7 +90,7 @@ const AddToCartButton = (props: AddToCartButtonProps) => {
           </Button>
         </div>
       ) : (
-        <Button variant="dark" onClick={handleAddToCart}>
+        <Button variant="warning" onClick={handleAddToCart}>
           Add to Cart
         </Button>
       )}

@@ -4,14 +4,25 @@ import emptyCart from '../assets/empty-cart.png';
 import { Link } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 import { ProductWithQuantity } from '../types/product'; // Ensure ProductWithQuantity includes quantity
+import AddToCartButton from '../components/products/AddToCartButton';
+import 'react-toastify/dist/ReactToastify.css';
+import { Bounce, ToastContainer, toast } from 'react-toastify';
 
 const Cart = () => {
-  const [products, setProducts] = useState<ProductWithQuantity[]>(StorageService.getCart());
+  const [products, setProducts] = useState<ProductWithQuantity[]>(
+    StorageService.getCart()
+  );
   const isEmpty = products.length === 0;
 
   // Calculate Order Total and Sales Volume
-  const orderTotal = products.reduce((total, product) => total + product.price * product.quantity, 0);
-  const salesVolume = products.reduce((total, product) => total + product.quantity, 0);
+  const orderTotal = products.reduce(
+    (total, product) => total + product.price * product.quantity,
+    0
+  );
+  const salesVolume = products.reduce(
+    (total, product) => total + product.quantity,
+    0
+  );
 
   useEffect(() => {
     setProducts(StorageService.getCart());
@@ -20,10 +31,30 @@ const Cart = () => {
   const handleCheckout = () => {
     // Logic to handle checkout
     console.log('Checkout initiated:', products);
+
+    //Clear cart after successful checkout
+    setProducts([]);
+    StorageService.setCart([]);
+
+    // Show toast notification
+    toast.success('Checkout successful!', {
+      position: "bottom-left",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+      transition: Bounce,
+      });
   };
 
   // Handle quantity change, including removing items when quantity is 0
-  const handleQuantityChange = (product: ProductWithQuantity, newQuantity: number) => {
+  const handleQuantityChange = (
+    product: ProductWithQuantity,
+    newQuantity: number
+  ) => {
     if (newQuantity <= 0) {
       // Remove the item if quantity is 0 or less
       const updatedProducts = products.filter((p) => p.id !== product.id);
@@ -41,6 +72,19 @@ const Cart = () => {
 
   return (
     <div className="d-flex text-center justify-content-center mb-auto">
+      <ToastContainer
+        position="bottom-left"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+        transition={Bounce}
+      />
       <div className="p-5 w-100">
         {isEmpty ? (
           <div className="d-flex flex-column align-items-center mt-5">
@@ -73,18 +117,14 @@ const Cart = () => {
                         <td>{product.category.name}</td>
                         <td>${product.price.toFixed(2)}</td>
                         <td className="">
-                          <input
-                            type="number"
-                            value={product.quantity}
-                            min={0}
-                            className="form-control text-center"
-                            onChange={(e) => {
-                              const newQuantity = parseInt(e.target.value, 10);
-                              handleQuantityChange(product, newQuantity);
-                            }}
+                          <AddToCartButton
+                            product={product}
+                            quantity={product.quantity}
                           />
                         </td>
-                        <td>${(product.price * product.quantity).toFixed(2)}</td>
+                        <td>
+                          ${(product.price * product.quantity).toFixed(2)}
+                        </td>
                       </tr>
                     ))}
                   </tbody>
@@ -99,6 +139,16 @@ const Cart = () => {
                   <h5 className="text-start fw-bold m-3">
                     Sales Volume: {salesVolume}
                   </h5>
+                  <Button
+                    variant="light"
+                    className="mt-3 w-100"
+                    onClick={() => {
+                      setProducts([]);
+                      StorageService.setCart([]);
+                    }}
+                  >
+                    Clear Cart
+                  </Button>
                   <Button
                     variant="light"
                     onClick={handleCheckout}

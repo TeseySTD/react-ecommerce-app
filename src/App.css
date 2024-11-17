@@ -45,13 +45,12 @@ footer {
   height: 100px;
 }
 
-
 .add-favorites-button img:hover {
   cursor: pointer;
 }
 
 .add-favorites-button.animated img {
-  animation: animation-pulsating .3s 
+  animation: animation-pulsating 0.3s;
 }
 
 @keyframes animation-pulsating {
