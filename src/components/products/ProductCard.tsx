@@ -25,7 +25,7 @@ const ProductCard = (props: ProductCardProps) => {
         </p>
         <div className="mt-auto">
           <Link
-            to={`/products/${props.product.id}`}
+            to={`/react-ecommerce-app/products/${props.product.id}`}
             className="btn btn-outline-dark btn-sm w-100"
           >
             View Product

@@ -21,7 +21,7 @@ const Home = () => {
           Discover our latest products and exclusive deals, curated just for
           you.
         </p>
-        <Link to="/products" className="btn btn-outline-dark btn-lg mb-3">
+        <Link to="/react-ecommerce-app/products" className="btn btn-outline-dark btn-lg mb-3">
           Shop Now
         </Link>
       </div>

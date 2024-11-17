@@ -16,7 +16,7 @@ const Favorites = () => {
           <img src={noFavorites} alt="No favorites" className="w-50" />
           <h1 className="fw-bold text-black mt-5">No products in favorites</h1>
           <h4>Add products to your favorites</h4>
-          <Link to="/products" className="btn btn-outline-dark btn-lg mt-3">
+          <Link to="/react-ecommerce-app/products" className="btn btn-outline-dark btn-lg mt-3">
             Browse Products
           </Link>
         </div>
