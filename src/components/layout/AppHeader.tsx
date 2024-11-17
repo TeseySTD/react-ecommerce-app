@@ -19,24 +19,24 @@ const AppHeader = () => {
         <div className="collapse navbar-collapse" id="navbarText">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item mx-3">
-              <a className="nav-link fw-bold" href="/react-ecommerce-app/">
+              <a className="nav-link fw-bold" href="/">
                 Home
               </a>
             </li>
             <li className="nav-item mx-3">
-              <a className="nav-link fw-bold" href="/react-ecommerce-app/products">
+              <a className="nav-link fw-bold" href="/products">
                 Products
               </a>
             </li>
           </ul>
           <ul className="navbar-nav">
             <li className="nav-item mx-3">
-              <a className="nav-link fw-bold" href="/react-ecommerce-app/cart">
+              <a className="nav-link fw-bold" href="/cart">
                 Cart
               </a>
             </li>
             <li className="nav-item mx-3 me-4">
-              <a className="nav-link fw-bold" href="/react-ecommerce-app/favorites">
+              <a className="nav-link fw-bold" href="/favorites">
                 Favorites
               </a>
             </li>

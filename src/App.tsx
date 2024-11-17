@@ -21,9 +21,10 @@ import ProductDetails, {
 } from './components/products/ProductDetails';
 import Favorites from './pages/Favorites';
 import Cart from './pages/Cart';
+import { basename } from 'path';
 
 const RoutesJsx = (
-  <Route path="/react-ecommerce-app/" errorElement={<ServerError />} element={<Layout />}>
+  <Route path="/" errorElement={<ServerError />} element={<Layout />}>
     <Route index element={<Home />} loader={HomeLoader} />
     <Route path="products" element={<Products />} loader={ProductsLoader} />
     <Route
@@ -39,7 +40,7 @@ const RoutesJsx = (
 
 const routes = createRoutesFromElements(RoutesJsx);
 
-const router = createBrowserRouter(routes);
+const router = createBrowserRouter(routes, {basename:'react-ecommerce-app'});
 
 function App() {
   return <RouterProvider router={router} />;

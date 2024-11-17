@@ -13,7 +13,7 @@ const NotFoundPage = () => {
         <p className="lead text-muted mb-4">
           Oops! The page you're looking for doesn't exist or has been moved.
         </p>
-        <Link to="/react-ecommerce-app/" className="btn btn-outline-dark btn-lg">
+        <Link to="/" className="btn btn-outline-dark btn-lg">
           Back to Home
         </Link>
       </div>

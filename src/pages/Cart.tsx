@@ -99,7 +99,7 @@ const Cart = () => {
             <img src={emptyCart} alt="Empty Cart" style={{ width: '20rem' }} />
             <h1 className="fw-bold text-black mt-5">Your cart is empty</h1>
             <h4>Add products to your cart</h4>
-            <Link to="/react-ecommerce-app/products" className="btn btn-outline-dark btn-lg mt-3">
+            <Link to="/products" className="btn btn-outline-dark btn-lg mt-3">
               Shop Now
             </Link>
           </div>

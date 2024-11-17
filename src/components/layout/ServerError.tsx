@@ -15,7 +15,7 @@ const ServerError = () => {
           <p className="lead text-muted mb-4">
             Oops! Error raised. Please try again later.
           </p>
-          <Link to="/react-ecommerce-app/" className="btn btn-outline-dark btn-lg">
+          <Link to="/" className="btn btn-outline-dark btn-lg">
             Back to Home
           </Link>
         </div>
