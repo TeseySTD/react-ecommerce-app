@@ -1,38 +1,66 @@
-.App {
-  text-align: center;
+.layout-nav-element {
+  background-color: black;
+  color: #ded6d6;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.layout-nav-element a {
+  color: #ded6d6;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.layout-nav-element a:hover {
+  color: gray;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+html,
+body {
+  height: 100%;
+  margin: 0;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.App {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.favorites-position {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  z-index: 1;
+  cursor: pointer;
+  background-color: #f4faf6aa;
+  border-radius: 20%;
+  padding: 4px;
+  transition: all 0.15s ease-in-out;
+}
+
+.favorites-position:hover {
+  background-color: #f4faf6;
+}
+
+footer {
+  height: 100px;
+}
+
+.add-favorites-button img:hover {
+  cursor: pointer;
+}
+
+.add-favorites-button.animated img {
+  animation: animation-pulsating 0.3s;
+}
+
+@keyframes animation-pulsating {
+  0% {
+    transform: scale(1);
   }
-  to {
-    transform: rotate(360deg);
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
   }
 }

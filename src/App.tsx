@@ -1,26 +1,48 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import AppHeader from './components/layout/AppHeader';
+import AppFooter from './components/layout/AppFooter';
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  createBrowserRouter,
+  createRoutesFromElements,
+  RouterProvider
+} from 'react-router-dom';
+import NotFound from './components/layout/NotFound';
+import Home, { HomeLoader } from './pages/Home';
+import ServerError from './components/layout/ServerError';
+import Layout from './components/layout/Layout';
+import Product from './types/product';
+import Products, { ProductsLoader } from './pages/Products';
+import ProductDetails, {
+  ProductDetailsLoader
+} from './components/products/ProductDetails';
+import Favorites from './pages/Favorites';
+import Cart from './pages/Cart';
+
+const RoutesJsx = (
+  <Route path="/" errorElement={<ServerError />} element={<Layout />}>
+    <Route index element={<Home />} loader={HomeLoader} />
+    <Route path="products" element={<Products />} loader={ProductsLoader} />
+    <Route
+      path="products/:productId"
+      element={<ProductDetails />}
+      loader={ProductDetailsLoader}
+    />
+    <Route path="cart" element={<Cart />} />
+    <Route path="favorites" element={<Favorites />} />
+    <Route path="*" element={<NotFound />} />
+  </Route>
+);
+
+const routes = createRoutesFromElements(RoutesJsx);
+
+const router = createBrowserRouter(routes);
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;
