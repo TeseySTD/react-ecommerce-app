@@ -60,10 +60,7 @@ const Products = () => {
     setSearchParams(params);
   };
 
-  const debounceFilterChange = (
-    callback: () => void,
-    delay: number
-  ) => {
+  const debounceFilterChange = (callback: () => void, delay: number) => {
     if (timer) clearTimeout(timer);
     setTimer(setTimeout(callback, delay));
   };

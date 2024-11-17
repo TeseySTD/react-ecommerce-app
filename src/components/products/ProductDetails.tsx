@@ -47,7 +47,7 @@ const ProductDetails = () => {
 
               {/* Action Buttons */}
               <div className="mt-auto me-2 d-flex justify-content-between">
-                <AddToCartButton product={product} />
+                <AddToCartButton product={product} quantity={1} />
                 <AddToFavoritesButton product={product} />
               </div>
               <div>

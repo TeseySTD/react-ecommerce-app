@@ -25,18 +25,26 @@ const AddToFavoritesButton = (props: AddToFavoritesButtonProps) => {
     }
   };
 
-  const animationHandler = () =>{
-    if(refFavorites.current && !refFavorites.current.classList.contains('animated')){
+  const animationHandler = () => {
+    if (
+      refFavorites.current &&
+      !refFavorites.current.classList.contains('animated')
+    ) {
       refFavorites.current.classList.toggle('animated');
 
       setTimeout(() => {
         refFavorites.current?.classList.toggle('animated');
-      },300)
+      }, 300);
     }
   };
 
   return (
-    <div className="add-favorites-button d-flex" onClick={handleAddToFavorites} onMouseOver={animationHandler} ref={refFavorites}>
+    <div
+      className="add-favorites-button d-flex"
+      onClick={handleAddToFavorites}
+      onMouseOver={animationHandler}
+      ref={refFavorites}
+    >
       {inFavorites ? (
         <img src={favoriteFill} alt="" style={{ width: '2rem' }} />
       ) : (

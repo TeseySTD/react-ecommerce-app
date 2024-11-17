@@ -57,7 +57,7 @@ export default class StorageService {
     static addCartItem(product: ProductWithQuantity) {
         const cart = this.getCart();
         const index = cart.findIndex((c) => c.id === product.id);
-    
+
         if (index === -1) {
             // If product doesn't exist, add a new entry with the quantity
             cart.push({ ...product });
@@ -65,10 +65,9 @@ export default class StorageService {
             // If product exists, update the quantity
             cart[index].quantity = product.quantity;
         }
-    
+
         this.setCart(cart);
     }
-    
 
     static updateCartItemQuantity(id: number, quantity: number) {
         const cart = this.getCart();
