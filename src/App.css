@@ -64,3 +64,11 @@ footer {
     transform: scale(1);
   }
 }
+.nav-link.active, .navbar-brand.active {
+  color: #ffffff;
+  background-color: transparent; 
+}
+.nav-link:focus, .nav-link:active, .navbar-brand:focus, .navbar-brand:active {
+  color: #ffffff;
+  background-color: transparent;
+}
