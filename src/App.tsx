@@ -25,17 +25,20 @@ import Cart from './pages/Cart';
 import { basename } from 'path';
 
 const RoutesJsx = (
-  <Route path="/" errorElement={<ServerError />} element={<Layout />}>
-    <Route index element={<Home />} loader={HomeLoader} />
-    <Route path="/products" element={<Products />} loader={ProductsLoader} />
-    <Route
-      path="/products/:productId"
-      element={<ProductDetails />}
-      loader={ProductDetailsLoader}
-    />
-    <Route path="/cart" element={<Cart />} />
-    <Route path="/favorites" element={<Favorites />} />
-    <Route path="/*" element={<NotFound />} />
+  <Route path="/"  element={<Layout />}>
+    {/* Add error page wrapper for layout */}
+    <Route path='/' errorElement={<ServerError />}>
+      <Route index element={<Home />} loader={HomeLoader} />
+      <Route path="/products" element={<Products />} loader={ProductsLoader} />
+      <Route
+        path="/products/:productId"
+        element={<ProductDetails />}
+        loader={ProductDetailsLoader}
+      />
+      <Route path="/cart" element={<Cart />} />
+      <Route path="/favorites" element={<Favorites />} />
+      <Route path="/*" element={<NotFound />} />
+    </Route>
   </Route>
 );
 
