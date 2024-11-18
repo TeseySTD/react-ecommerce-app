@@ -4,9 +4,9 @@ const AppHeader = () => {
   return (
     <nav className="layout-nav-element navbar navbar-expand-lg sticky-top">
       <div className="container-fluid">
-        <a className="navbar-brand mx-3 ms-4 fw-bold" href="/">
+        <Link className="navbar-brand mx-3 ms-4 fw-bold" to="/">
           E-Commerce App
-        </a>
+        </Link>
         <button
           className="navbar-toggler"
           type="button"

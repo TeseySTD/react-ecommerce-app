@@ -27,21 +27,21 @@ import { basename } from 'path';
 const RoutesJsx = (
   <Route path="/" errorElement={<ServerError />} element={<Layout />}>
     <Route index element={<Home />} loader={HomeLoader} />
-    <Route path="products" element={<Products />} loader={ProductsLoader} />
+    <Route path="/products" element={<Products />} loader={ProductsLoader} />
     <Route
-      path="products/:productId"
+      path="/products/:productId"
       element={<ProductDetails />}
       loader={ProductDetailsLoader}
     />
-    <Route path="cart" element={<Cart />} />
-    <Route path="favorites" element={<Favorites />} />
-    <Route path="*" element={<NotFound />} />
+    <Route path="/cart" element={<Cart />} />
+    <Route path="/favorites" element={<Favorites />} />
+    <Route path="/*" element={<NotFound />} />
   </Route>
 );
 
 const routes = createRoutesFromElements(RoutesJsx);
 
-const router = createHashRouter(routes, {basename: '/'});
+const router = createHashRouter(routes, { basename: '/' });
 
 function App() {
   return <RouterProvider router={router} />;
